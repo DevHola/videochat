@@ -15,7 +15,7 @@
     </div>-->
 <div class="row"> 
 <div class="attr-nav">
-<button class="sponsor-button" href="adoption.php">Leave</button>
+<button class="sponsor-button" @click="leave()">Leave</button>
 <button class="donation" @click="joinrtc()">Join</button>
 
 </div>           
@@ -26,7 +26,6 @@
 </template>
 <script>
 import Vue from 'vue'
-import feed from '@/components/feed'
 import navbar from '@/components/navbar'
 import WebRTC from 'vue-webrtc'
 import * as rtcmulticonnection from 'rtcmulticonnection';
@@ -36,25 +35,27 @@ Vue.use(WebRTC);
 export default{
    data(){
        return{
-          videosList: []
+          connector:''
        }
    },
    components:{
-        navbar,feed
+        navbar
    },
    methods:{
         joinrtc() {
           var connection = new rtcmulticonnection();
-          console.log(connection);
           connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
           connection.session = {
               audio: true,
               video: true
           };
+          connection.autoCloseEntireSession = true;
            connection.sdpConstraints.mandatory = {
             OfferToReceiveAudio: true,
             OfferToReceiveVideo: true
             };
+            this.connector = connection;
+            console.log(this.connector)
             
             var bitrates = 512;
         var resolutions = 'Ultra-HD';
@@ -63,10 +64,10 @@ export default{
         if (resolutions == 'HD') {
             videoConstraints = {
                 width: {
-                    ideal: 1280
+                    ideal: 400
                 },
                 height: {
-                    ideal: 720
+                    ideal: 400
                 },
                 frameRate: 30
             };
@@ -75,10 +76,10 @@ export default{
         if (resolutions == 'Ultra-HD') {
             videoConstraints = {
                 width: {
-                    ideal: 1920
+                    ideal: 400
                 },
                 height: {
-                    ideal: 1080
+                    ideal: 400
                 },
                 frameRate: 30
             };
@@ -128,6 +129,13 @@ export default{
         };
           connection.openOrJoin('myroom19');
     },
+    leave(){
+        
+        this.connector.attachStreams.forEach(function(localStream) {
+        localStream.stop();
+    });
+        this.connector.closeSocket();
+       },
    }
 
 }
