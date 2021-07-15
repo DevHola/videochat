@@ -5,8 +5,8 @@ import App from './App'
 import router from './router'
 import 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
-import '@/assets/bootsnav.css';
-import '@/assets/style.css';
+import './assets/css/bootsnav.css';
+import './assets/css/style.css';
 
 Vue.config.productionTip = false
 

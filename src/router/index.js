@@ -13,7 +13,7 @@ export default new Router({
       component: HelloWorld
     },
     {
-      path: '/videochat',
+      path: '/videochat/:id',
       name: 'Video',
       component: Video
     }

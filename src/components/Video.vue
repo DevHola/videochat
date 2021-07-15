@@ -1,23 +1,12 @@
 <template>
 <div class="container">
-    <div class="container">
-    
-      <div class="col-6">
-     <vue-webrtc ref="BaseWRTC"
-                      width="50%"
-                      cameraHeight=100
-                      roomId="Base"
-                      socketURL="https://rtcmulticonnection.herokuapp.com:443/" />
-      </div>
-   <!--   <div id="vue-app">
-     <feed v-for="feed in videosList" :todo="feed" :key="feed.id">
-      </feed>
-    </div>-->
-<div class="row"> 
+    <div class="container ml-5">
+<div class="row">
 <div class="attr-nav">
-<button class="sponsor-button" @click="leave()">Leave</button>
-<button class="donation" @click="joinrtc()">Join</button>
-
+<button class="donation" @click="joinrtc()" v-show="this.connector.isOnline != true" >Join</button>
+<button class="sponsor-button" @click="leave()" v-show="this.connector.isOnline ===true">Leave</button>
+<button class="btn btn-success" v-show="this.connector.isOnline === true">Online</button>
+<button class="btn btn-danger" v-show="this.connector.isOnline != true">Offline</button>
 </div>           
 </div>
 </div>
@@ -27,15 +16,14 @@
 <script>
 import Vue from 'vue'
 import navbar from '@/components/navbar'
-import WebRTC from 'vue-webrtc'
 import * as rtcmulticonnection from 'rtcmulticonnection';
 import * as io from 'socket.io-client'
 window.io = io
-Vue.use(WebRTC);
 export default{
    data(){
        return{
-          connector:''
+          connector:'',
+          roomID:this.$route.params.id
        }
    },
    components:{
@@ -49,13 +37,13 @@ export default{
               audio: true,
               video: true
           };
+          connection.maxParticipantsAllowed = 7;
           connection.autoCloseEntireSession = true;
            connection.sdpConstraints.mandatory = {
             OfferToReceiveAudio: true,
             OfferToReceiveVideo: true
             };
             this.connector = connection;
-            console.log(this.connector)
             
             var bitrates = 512;
         var resolutions = 'Ultra-HD';
@@ -127,7 +115,8 @@ export default{
 
             return sdp;
         };
-          connection.openOrJoin('myroom19');
+        
+          connection.openOrJoin(this.roomID);
     },
     leave(){
         
@@ -140,3 +129,12 @@ export default{
 
 }
 </script>
+<style>
+video{
+    width:500px;
+	height:500px;
+    padding: 2rem;
+	display:block;
+}
+
+</style>
