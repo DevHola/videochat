@@ -1,12 +1,19 @@
 <template>
 <div class="container">
     <div class="container ml-5">
+         <div>
+      <feed
+          v-for="(index,item) in videosList"
+          :item="item"
+          :key="index">
+      </feed>
+    </div>
 <div class="row">
 <div class="attr-nav">
-<button class="donation" @click="joinrtc()" v-show="this.connector.isOnline != true" >Join</button>
-<button class="sponsor-button" @click="leave()" v-show="this.connector.isOnline ===true">Leave</button>
-<button class="btn btn-success" v-show="this.connector.isOnline === true">Online</button>
-<button class="btn btn-danger" v-show="this.connector.isOnline != true">Offline</button>
+<button class="donation" @click="joinrtc()" v-show="this.connection.isOnline != true" >Join</button>
+<button class="sponsor-button" @click="leave()" v-show="this.connection.isOnline ===true">Leave</button>
+<button class="btn btn-success" v-show="this.connection.isOnline === true">Online</button>
+<button class="btn btn-danger" v-show="this.connection.isOnline != true">Offline</button>
 </div>           
 </div>
 </div>
@@ -14,7 +21,7 @@
   </div>
 </template>
 <script>
-import Vue from 'vue'
+import feed from '@/components/feed'
 import navbar from '@/components/navbar'
 import * as rtcmulticonnection from 'rtcmulticonnection';
 import * as io from 'socket.io-client'
@@ -22,29 +29,29 @@ window.io = io
 export default{
    data(){
        return{
-          connector:'',
-          roomID:this.$route.params.id
+          connection:'',
+          roomID:this.$route.params.id,
+          videosList:[],
+          newList:[]
        }
    },
    components:{
-        navbar
+        navbar,feed
    },
    methods:{
         joinrtc() {
-          var connection = new rtcmulticonnection();
-          connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
-          connection.session = {
+          this.connection = new rtcmulticonnection();
+          this.connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+          this.connection.session = {
               audio: true,
               video: true
           };
-          connection.maxParticipantsAllowed = 7;
-          connection.autoCloseEntireSession = true;
-           connection.sdpConstraints.mandatory = {
+          this.connection.maxParticipantsAllowed = 7;
+          this.connection.autoCloseEntireSession = true;
+           this.connection.sdpConstraints.mandatory = {
             OfferToReceiveAudio: true,
             OfferToReceiveVideo: true
-            };
-            this.connector = connection;
-            
+            };  
             var bitrates = 512;
         var resolutions = 'Ultra-HD';
         var videoConstraints = {};
@@ -73,14 +80,14 @@ export default{
             };
         }
 
-        connection.mediaConstraints = {
+        this.connection.mediaConstraints = {
             video: videoConstraints,
             audio: true
         };
         
-        var CodecsHandler = connection.CodecsHandler;
+        var CodecsHandler = this.connection.CodecsHandler;
 
-        connection.processSdp = function(sdp) {
+        this.connection.processSdp = function(sdp) {
             var codecs = 'vp8';
             
             if (codecs.length) {
@@ -115,15 +122,32 @@ export default{
 
             return sdp;
         };
+        /*
+        this.connection.autoCreateMediaElement = false;
+        this.connection.onstream = function(event) {
+            this.videosList.push({
+                id: event.streamid,
+                srcObject: event.stream,
+                muted: event.type === 'local'
+            });
+        };
+        this.connection.onstreamended = function(event) {
+            this.videosList.forEach(function(item) {
+                if(item.id !== event.streamid) {
+                    this.newList.push(item);
+                }
+            });
+            this.videosList = this.newList;
+        };*/
         
-          connection.openOrJoin(this.roomID);
+          this.connection.openOrJoin(this.roomID);
     },
     leave(){
         
-        this.connector.attachStreams.forEach(function(localStream) {
+        this.connection.attachStreams.forEach(function(localStream) {
         localStream.stop();
     });
-        this.connector.closeSocket();
+        this.connection.closeSocket();
        },
    }
 
@@ -133,8 +157,6 @@ export default{
 video{
     width:500px;
 	height:500px;
-    padding: 2rem;
-	display:block;
+	display:grid;
 }
-
 </style>
