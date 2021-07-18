@@ -73,11 +73,12 @@ video{
   }
    .video-list div {
       padding: 0px;
-      background: white;
     }
    .video-item:first-child {
-    background:white;
     display: inline-block;
     border:2px solid red;
+  }
+  .video-item {
+    display: inline-block;
   }
 </style>
