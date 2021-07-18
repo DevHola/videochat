@@ -1,27 +1,29 @@
 <template>
-    <div class="container">
-    <nav class="navbar navbar-default navbar-sticky bootsnav">
-    <div class="container">
-    <div class="row"> 
-    <div class="attr-nav">
-      <span>Mconferencing</span>
-    </div>           
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 my-3">
+        <h2 class="text-left" style="font-size:20px;">bFuision.com</h2>
+        <div class="attr-nav">
+          <button class="donation">Tech Support</button>
+          <button class="sponsor-button" >Donate</button>
+          </div>           
+        <hr>
+      </div>
     </div>
-    </div>
-    </nav>
-    <div class="col-5 mt-5 ml-5 ">
-    <div class="row form-group">
-      <div class="col">
-        <label style="font-size:20px;font-weight:bold;text-align:left" class="mt-3">Conference Room</label>
-    <input type="text" class="form-control" v-model="roomID" placeholder="Conference Room">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="container">
+         <div class="col">
+          <label style="font-size:20px;font-weight:bold" class="mt-3 text-left">  Open Conference Generator</label>
+           <input type="text" class="form-control" v-model="roomID" placeholder="Conference Room">
     </div>
     <div class="col">
-      <router-link class="sponsor-button" :to="'/videochat/'+this.roomID">Join/Open Conference Room</router-link>
+           <router-link class="sponsor-button" :to="'/businessconnection/'+this.roomID">Conference Room</router-link>
     </div>
+        </div>
+      </div>
     </div>
-    </div>
-    <hr class="mt-5 pt-4">
-    </div>
+  </div>
 </template>
 
 <script>

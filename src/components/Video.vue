@@ -1,7 +1,7 @@
 <template>
 <div class="container">
     <div class="container ml-5">
-         <div>
+         <div class="videos-container">
       <feed
           v-for="(index,item) in videosList"
           :item="item"
@@ -21,8 +21,6 @@
   </div>
 </template>
 <script>
-import feed from '@/components/feed'
-import navbar from '@/components/navbar'
 import * as rtcmulticonnection from 'rtcmulticonnection';
 import * as io from 'socket.io-client'
 window.io = io
@@ -36,7 +34,6 @@ export default{
        }
    },
    components:{
-        navbar,feed
    },
    methods:{
         joinrtc() {
@@ -141,22 +138,40 @@ export default{
         };*/
         
           this.connection.openOrJoin(this.roomID);
+          this.connection.videocontainer = document.querySelector('.videos-container')
     },
     leave(){
-        
+        this.connection.getAllParticipants().forEach(function(pid) {
+        this.connection.disconnectWith(pid);
+    });
+
         this.connection.attachStreams.forEach(function(localStream) {
         localStream.stop();
     });
         this.connection.closeSocket();
        },
+       
    }
 
 }
 </script>
 <style>
 video{
-    width:500px;
-	height:500px;
-	display:grid;
+    max-height: 280px;
+    margin: auto;
+    padding: auto;
+    max-width: 600px;
+}
+video:first-child {
+    border:2px solid greenyellow;
+    box-sizing: border-box;
+    width:200px;
+    height:200px;
+    padding: 15px;
+    margin-bottom: 35px;
+    margin-right: 5px;
+}
+body{
+    margin:10px;
 }
 </style>
