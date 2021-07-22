@@ -58,10 +58,6 @@
 </script>
 <style>
 video{
-  margin:1px;
-  width:380px;
-  height: 300px;
-  background-color: white;
 }
  .video-list {
     background: rgb(39, 35, 35);
@@ -77,8 +73,6 @@ video{
    .video-item:first-child {
     display: inline-block;
     border:2px solid red;
-    width:380px;
-    height:300px;
     margin-buttom:0px;
   }
   .video-item {
