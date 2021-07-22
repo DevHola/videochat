@@ -59,8 +59,8 @@
 <style>
 video{
   margin:1px;
-  width:400px;
-  height: auto;
+  width:380px;
+  height: 300px;
   background-color: white;
 }
  .video-list {
@@ -77,6 +77,9 @@ video{
    .video-item:first-child {
     display: inline-block;
     border:2px solid red;
+    width:380px;
+    height:300px;
+    margin-buttom:0px;
   }
   .video-item {
     display: inline-block;
