@@ -58,24 +58,10 @@
 </script>
 <style>
 video{
+ width:380px;
+ height:300px;
 }
- .video-list {
-    background: rgb(39, 35, 35);
-    height: auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-    flex-wrap: wrap;
-  }
-   .video-list div {
-      padding: 0px;
-    }
    .video-item:first-child {
-    display: inline-block;
     border:2px solid red;
-    margin-buttom:0px;
-  }
-  .video-item {
-    display: inline-block;
-  }
+   }
 </style>
