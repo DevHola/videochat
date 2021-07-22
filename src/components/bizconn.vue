@@ -15,7 +15,7 @@
     <div class="row">
       <div class="col-md-12">
     <div class="container">
-      <vue-webrtc ref="webrtc" width="100%" :roomId="roomId" class="bg-dark" v-on:joined-room="logEvent"
+      <vue-webrtc ref="webrtc" width="100%" :roomId="roomId" cameraHeight=380 class="bg-dark" v-on:joined-room="logEvent"
               v-on:left-room="logEvent" v-on:opened-room="logEvent" @error="onError" />
         </div>
       </div>
