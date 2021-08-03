@@ -119,7 +119,7 @@ export default{
 
             return sdp;
         };
-        /*
+        
         this.connection.autoCreateMediaElement = false;
         this.connection.onstream = function(event) {
             this.videosList.push({
@@ -135,10 +135,10 @@ export default{
                 }
             });
             this.videosList = this.newList;
-        };*/
+        };
         
           this.connection.openOrJoin(this.roomID);
-          this.connection.videocontainer = document.querySelector('.videos-container')
+          
     },
     leave(){
         this.connection.getAllParticipants().forEach(function(pid) {
